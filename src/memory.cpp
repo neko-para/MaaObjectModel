@@ -1,11 +1,13 @@
 #include "MaaObjectModel.h"
 
-MHandle MAA_API MaaRtAlloc(MUInt size)
+extern "C" MHandle MAA_API MaaRtAlloc(MUInt size)
 {
     return new char[size];
 }
 
-void MAA_API MaaRtFree(MHandle handle)
+extern "C" MResult MAA_API MaaRtFree(MHandle handle)
 {
+    // TODO: Maybe check?
     delete handle;
+    return ME_OK;
 }

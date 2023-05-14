@@ -5,30 +5,34 @@
 
 static std::unordered_map<std::string, MFactory>* pFactory;
 
-MBool MAA_API MaaRtInitClass()
+extern "C" MResult MAA_API MaaRtInitClass()
 {
     pFactory = new std::unordered_map<std::string, MFactory>();
+    return ME_OK;
 }
 
-MBool MAA_API MaaRtRegisterClass(const MUUID* uuid, MFactory factory)
+extern "C" MResult MAA_API MaaRtRegisterClass(const MUUID* uuid, MFactory factory)
 {
-    if (pFactory->contains(uuid->id)) {
-        return 0;
+    if (pFactory->contains(uuid->id) || !factory) {
+        return ME_INVALIDARG;
     }
     else {
         (*pFactory)[uuid->id] = factory;
-        return 1;
+        return ME_OK;
     }
 }
 
-MBool MAA_API MaaRtLocateClass(const MUUID* uuid, MFactory* factory)
+extern "C" MResult MAA_API MaaRtLocateClass(const MUUID* uuid, MFactory* factory)
 {
     auto it = pFactory->find(uuid->id);
-    if (it == pFactory->end() || !factory) {
-        return 0;
+    if (!factory) {
+        return ME_POINTER;
+    }
+    else if (it == pFactory->end()) {
+        return ME_INVALIDARG;
     }
     else {
         *factory = it->second;
-        return 1;
+        return ME_OK;
     }
 }

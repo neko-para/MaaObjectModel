@@ -7,10 +7,10 @@
 
 struct MIUnknown
 {
-    MBool(MAA_CALL* QueryInterface)(MHandle self, const MUUID* iid, MHandle* out);
+    MResult(MAA_CALL* QueryInterface)(MHandle self, const MUUID* iid, MHandle* out);
     MUInt(MAA_CALL* AddRef)(MHandle self);
     MUInt(MAA_CALL* Release)(MHandle self);
-    MBool(MAA_CALL* GetIids)(MHandle self, MUInt* size, MUUID* out);
+    MResult(MAA_CALL* GetIids)(MHandle self, MUInt* size, MUUID* out);
 };
 
 struct MObject
@@ -32,4 +32,4 @@ struct MCppObject : public MObject
 MUInt MAA_CALL __AddRef(MHandle self);
 MUInt MAA_CALL __Release(MHandle self);
 
-using MFactory = MBool(MAA_CALL*)(MHandle* out);
+using MFactory = MResult(MAA_CALL*)(MHandle* out);

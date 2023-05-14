@@ -2,4 +2,4 @@
 
 #include "type.h"
 
-extern const MUUID IID_Unknown;
+extern "C" const MUUID IID_Unknown;

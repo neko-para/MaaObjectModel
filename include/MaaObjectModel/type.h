@@ -8,6 +8,7 @@ using MFloat = double;
 using MBool = uint8_t;
 using MChar = char;
 using MRString = const MChar*;
+using MResult = uint32_t;
 
 using MHandle = void*;
 using MString = MHandle;

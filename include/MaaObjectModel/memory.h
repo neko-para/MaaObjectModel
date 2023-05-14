@@ -6,5 +6,5 @@
 extern "C"
 {
     MHandle MAA_API MaaRtAlloc(MUInt size);
-    void MAA_API MaaRtFree(MHandle handle);
+    MResult MAA_API MaaRtFree(MHandle handle);
 }

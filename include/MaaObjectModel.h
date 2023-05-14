@@ -5,4 +5,5 @@
 #include "MaaObjectModel/memory.h"
 #include "MaaObjectModel/object.h"
 #include "MaaObjectModel/port.h"
+#include "MaaObjectModel/result.h"
 #include "MaaObjectModel/type.h"

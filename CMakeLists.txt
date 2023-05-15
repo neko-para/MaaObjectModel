@@ -34,6 +34,7 @@ add_library(MaaObjectModel SHARED
     include/MaaObjectModel/object.h
     include/MaaObjectModel/port.h
     include/MaaObjectModel/string.h
+    include/MaaObjectModel/utils.h
     include/MaaObjectModel/type.h
 ) 
 

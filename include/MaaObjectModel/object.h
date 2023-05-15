@@ -10,7 +10,7 @@ struct MIUnknown
     MResult(MAA_CALL* QueryInterface)(MHandle self, const MUUID* iid, MHandle* out);
     MUInt(MAA_CALL* AddRef)(MHandle self);
     MUInt(MAA_CALL* Release)(MHandle self);
-    MResult(MAA_CALL* GetIids)(MHandle self, MUInt* size, MUUID* out);
+    MResult(MAA_CALL* GetIids)(MHandle self, MUInt* size, MUUID** out);
 };
 
 struct MInnerObject;
@@ -19,6 +19,12 @@ struct MObject
 {
     MIUnknown* vptr;
     MInnerObject* inner;
+};
+
+template <typename VPtr>
+struct MObjectTyped
+{
+    VPtr* vptr;
 };
 
 struct MCppBaseObject

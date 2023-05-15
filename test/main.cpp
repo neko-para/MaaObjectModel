@@ -1,5 +1,7 @@
 #include "tc.h"
 
+#include <iostream>
+
 int main()
 {
     MaaRtInitClass();
@@ -8,7 +10,23 @@ int main()
     MFactory tcf;
     MaaRtLocateClass(&CID_TestClass, &tcf);
     MHandle obj;
-    tcf(&IID_TestClass, &obj);
-    static_cast<ITestClass*>(static_cast<MObject*>(obj)->vptr)->hello(obj, 4);
+    tcf(&IID_Unknown, &obj);
+    auto ou = static_cast<MObjectTyped<MIUnknown>*>(obj);
+
+    MUInt size;
+    MUUID* iids;
+    ou->vptr->GetIids(ou, &size, &iids);
+    std::cout << "Get " << size << " IID" << std::endl;
+
+    MHandle iobj;
+    ou->vptr->QueryInterface(ou, &iids[1], &iobj);
+
+    MaaRtFree(iids);
+
+    ou->vptr->Release(ou);
+    auto ot = static_cast<MObjectTyped<ITestClass>*>(iobj);
+    ot->vptr->set(ot, 4);
+    ot->vptr->hello(ot);
+    ot->vptr->Release(ot);
     return 0;
 }

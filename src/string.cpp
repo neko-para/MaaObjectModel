@@ -34,7 +34,7 @@ static MResult MAA_CALL __QueryInterface(MHandle self, const MUUID* iid, MHandle
     }
 }
 
-static MResult MAA_CALL __GetIids([[maybe_unused]] MHandle self, MUInt* size, [[maybe_unused]] MUUID* out)
+static MResult MAA_CALL __GetIids([[maybe_unused]] MHandle self, MUInt* size, [[maybe_unused]] MUUID** out)
 {
     if (size) {
         *size = 0;

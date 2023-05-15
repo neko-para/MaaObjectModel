@@ -8,3 +8,4 @@
 #include "MaaObjectModel/result.h"
 #include "MaaObjectModel/string.h"
 #include "MaaObjectModel/type.h"
+#include "MaaObjectModel/utils.h"

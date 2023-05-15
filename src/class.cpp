@@ -11,20 +11,20 @@ extern "C" MResult MAA_API MaaRtInitClass()
     return ME_OK;
 }
 
-extern "C" MResult MAA_API MaaRtRegisterClass(const MUUID* uuid, MFactory factory)
+extern "C" MResult MAA_API MaaRtRegisterClass(const MUUID* cid, MFactory factory)
 {
-    if (pFactory->contains(uuid->id) || !factory) {
+    if (pFactory->contains(cid->id) || !factory) {
         return ME_INVALIDARG;
     }
     else {
-        (*pFactory)[uuid->id] = factory;
+        (*pFactory)[cid->id] = factory;
         return ME_OK;
     }
 }
 
-extern "C" MResult MAA_API MaaRtLocateClass(const MUUID* uuid, MFactory* factory)
+extern "C" MResult MAA_API MaaRtLocateClass(const MUUID* cid, MFactory* factory)
 {
-    auto it = pFactory->find(uuid->id);
+    auto it = pFactory->find(cid->id);
     if (!factory) {
         return ME_POINTER;
     }

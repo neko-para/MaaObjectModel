@@ -13,10 +13,12 @@ struct MIUnknown
     MResult(MAA_CALL* GetIids)(MHandle self, MUInt* size, MUUID* out);
 };
 
+struct MInnerObject;
+
 struct MObject
 {
     MIUnknown* vptr;
-    std::atomic<MUInt> ref;
+    MInnerObject* inner;
 };
 
 struct MCppBaseObject
@@ -24,12 +26,18 @@ struct MCppBaseObject
     virtual ~MCppBaseObject() = default;
 };
 
-struct MCppObject : public MObject
+struct MInnerObject
+{
+    std::atomic<MUInt> ref;
+    MObject* vptrs;
+};
+
+struct MCppInnerObject : public MInnerObject
 {
     MCppBaseObject* obj;
 };
 
-MUInt MAA_CALL __AddRef(MHandle self);
-MUInt MAA_CALL __Release(MHandle self);
+MUInt MAA_API __AddRef(MHandle self);
+MUInt MAA_API __Release(MHandle self);
 
-using MFactory = MResult(MAA_CALL*)(MHandle* out);
+using MFactory = MResult(MAA_CALL*)(const MUUID* iid, MHandle* out);

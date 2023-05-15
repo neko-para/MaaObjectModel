@@ -2,9 +2,6 @@
 
 #include <cstring>
 
-struct MIString : public MIUnknown
-{};
-
 struct MOString : public MCppBaseObject
 {
     MInt len;
@@ -29,7 +26,7 @@ static MResult MAA_CALL __QueryInterface(MHandle self, const MUUID* iid, MHandle
         return ME_POINTER;
     }
     if (!strcmp(iid->id, IID_Unknown.id)) {
-        *out = self;
+        *out = MaaRtDuplicateString(self);
         return ME_OK;
     }
     else {
@@ -48,30 +45,33 @@ static MResult MAA_CALL __GetIids([[maybe_unused]] MHandle self, MUInt* size, [[
     }
 }
 
-static MIString MI = {
-    { .QueryInterface = __QueryInterface, .AddRef = __AddRef, .Release = __Release, .GetIids = __GetIids }
+static MIUnknown MI = {
+    .QueryInterface = __QueryInterface, .AddRef = __AddRef, .Release = __Release, .GetIids = __GetIids
 };
 
 extern "C" MString MAA_API MaaRtCreateString(const MChar* str, MInt len)
 {
-    return new MCppObject { { .vptr = &MI }, new MOString(str, len) };
+    auto res = new MCppInnerObject { 1, new MObject[1], new MOString(str, len) };
+    res->vptrs[0].vptr = &MI;
+    res->vptrs[0].inner = res;
+    return &res->vptrs[0];
 }
 
 extern "C" MResult MAA_API MaaRtDeleteString(MString str)
 {
-    static_cast<MCppObject*>(str)->vptr->Release(str);
+    static_cast<MObject*>(str)->vptr->Release(str);
     return ME_OK;
 }
 
 extern "C" MString MAA_API MaaRtDuplicateString(MString str)
 {
-    static_cast<MCppObject*>(str)->vptr->AddRef(str);
+    static_cast<MObject*>(str)->vptr->AddRef(str);
     return str;
 }
 
 extern "C" MRString MAA_API MaaRtGetStringData(MString str, MInt* len)
 {
-    auto p = static_cast<MOString*>(static_cast<MCppObject*>(str)->obj);
+    auto p = static_cast<MOString*>(static_cast<MCppInnerObject*>(static_cast<MObject*>(str)->inner)->obj);
     if (len) {
         *len = p->len;
     }

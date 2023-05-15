@@ -1,17 +1,18 @@
 #include "MaaObjectModel.h"
 
-MUInt MAA_CALL __AddRef(MHandle self)
+MUInt MAA_API __AddRef(MHandle self)
 {
-    MCppObject* p = static_cast<MCppObject*>(self);
-    return ++p->ref;
+    auto* p = static_cast<MObject*>(self);
+    return ++p->inner->ref;
 }
 
-MUInt MAA_CALL __Release(MHandle self)
+MUInt MAA_API __Release(MHandle self)
 {
-    MCppObject* p = static_cast<MCppObject*>(self);
+    auto* p = static_cast<MCppInnerObject*>(static_cast<MObject*>(self)->inner);
     auto ref = --p->ref;
     if (ref == 0) {
         delete p->obj;
+        delete[] p->vptrs;
         delete p;
         return 0;
     }

@@ -49,3 +49,13 @@ set_target_properties(MaaObjectModel PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
 )
+
+add_executable(test test/main.cpp test/tc.cpp test/tc.h)
+
+target_link_libraries(test MaaObjectModel)
+
+set_target_properties(test PROPERTIES
+    LINKER_LANGUAGE CXX
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED ON
+)

@@ -24,12 +24,14 @@ endif ()
 
 add_library(MaaObjectModel SHARED
     src/class.cpp
+    src/error.cpp
     src/id.cpp
     src/memory.cpp
     src/string.cpp
     src/object.cpp
     include/MaaObjectModel.h
     include/MaaObjectModel/class.h
+    include/MaaObjectModel/error.h
     include/MaaObjectModel/id.h
     include/MaaObjectModel/object.h
     include/MaaObjectModel/port.h

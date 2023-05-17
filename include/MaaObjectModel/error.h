@@ -5,6 +5,6 @@
 
 extern "C"
 {
-    void MAA_API MaaRtSetLastError(MRString err);
-    MString MAA_API MaaRtGetLastError();
+    MResult MAA_API MaaRtSetLastError(MRString err);
+    MResult MAA_API MaaRtGetLastError(MString* err);
 }

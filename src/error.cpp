@@ -2,20 +2,25 @@
 
 MString hErr = 0;
 
-void MAA_API MaaRtSetLastError(MRString err)
+MResult MAA_API MaaRtSetLastError(MRString err)
 {
     if (hErr) {
         MaaRtDeleteString(hErr);
     }
     hErr = MaaRtCreateString(err, -1);
+    return ME_OK;
 }
 
-MString MAA_API MaaRtGetLastError()
+MResult MAA_API MaaRtGetLastError(MString* err)
 {
+    if (!err) {
+        return ME_POINTER;
+    }
     if (hErr) {
-        return hErr;
+        *err = MaaRtDuplicateString(hErr);
+        return ME_OK;
     }
     else {
-        return 0;
+        return ME_NODATA;
     }
 }
